@@ -1,4 +1,5 @@
-<p>Run me in the browser from your server to try</p>
+<p>
+  Run me in the browser from your server to try</p>
 <form method="POST">
   <label for="email">Email:</label>
   <input type="email" id="email" name="email" required/>

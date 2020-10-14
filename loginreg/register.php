@@ -8,7 +8,6 @@
   <input type="password" id="p2" name="confirm" required/>
   <input type="submit" name="register" value="Register"/>
 </form>
-
 <?php
 if(isset($_POST["register"])){
   $email = null;
@@ -37,11 +36,25 @@ if(isset($_POST["register"])){
   }
   //TODO other validation as desired, remember this is the last line of defense
   if($isValid){
-    //for password security we'll generate a hash that'll be saved to the DB instead of the raw password
-    //for this sample we'll show it instead
     $hash = password_hash($password, PASSWORD_BCRYPT);
-    echo "<br>Our hash: $hash<br>";
-    echo "User registered (not really since we don't have a database setup yet)"; 
+    require_once("db.php");
+    $db = getDB();
+	if(isset($db)){
+		//here we'll use placeholders to let PDO map and sanitize our data
+		$stmt = $db->prepare("INSERT INTO Users(email, password) VALUES(:email, :password)");
+		//here's the data map for the parameter to data
+		$params = array(":email"=>$email, ":password"=>$hash);
+		$r = $stmt->execute($params);
+		//let's just see what's returned
+		echo "db returned: " . var_export($r, true);
+		$e = $stmt->errorInfo();
+		if($e[0] == "00000"){
+			echo "<br>Welcome! You successfully registered, please login.";
+		}
+		else{
+			echo "uh oh something went wrong: " . var_export($e, true);
+		}
+	}
   }
   else{
    echo "There was a validation issue"; 

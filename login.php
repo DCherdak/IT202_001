@@ -4,44 +4,48 @@
   <input type="email" id="email" name="email" required/>
   <label for="p1">Password:</label>
   <input type="password" id="p1" name="password" required/>
-  <label for="p2">Confirm Password:</label>
-  <input type="password" id="p2" name="confirm" required/>
-  <input type="submit" name="register" value="Register"/>
+  <input type="submit" name="login" value="Login"/>
 </form>
 
 <?php
-if(isset($_POST["register"])){
+if(isset($_POST["login"])){
   $email = null;
   $password = null;
-  $confirm = null;
   if(isset($_POST["email"])){
     $email = $_POST["email"];
   }
   if(isset($_POST["password"])){
     $password = $_POST["password"];
   }
-  if(isset($_POST["confirm"])){
-    $confirm = $_POST["confirm"];
-  }
   $isValid = true;
-  //check if passwords match on the server side
-  if($password == $confirm){
-    echo "Passwords match <br>"; 
-  }
-  else{
-    echo "Passwords don't match<br>";
-    $isValid = false;
-  }
-  if(!isset($email) || !isset($password) || !isset($confirm)){
+  if(!isset($email) || !isset($password)){
    $isValid = false; 
   }
   //TODO other validation as desired, remember this is the last line of defense
+  //here you'd probably want some email validation, for sake of example let's do a super basic one
+  if(!strpos($email, "@")){
+   $isValid = false;
+    echo "<br>Invalid email<br>";
+  }
   if($isValid){
-    //for password security we'll generate a hash that'll be saved to the DB instead of the raw password
-    //for this sample we'll show it instead
-    $hash = password_hash($password, PASSWORD_BCRYPT);
-    echo "<br>Our hash: $hash<br>";
-    echo "User registered (not really since we don't have a database setup yet)"; 
+    //for password matching, we can't use this, every time it's ran it'll be a different value
+    //so will never log us in!
+    //$hash = password_hash($password, PASSWORD_BCRYPT);
+    //instead we'll want to run password_verify
+    //TODO pretend we got our use from the DB
+    //make sure if you're pasting a sample hash here that you use single quotes
+    //if you use double quotes it'll try to parse values with $ as a php variable
+    //and the sample won't work
+    $password_hash_from_db = '';//placeholder, you can copy/paste a hash generated from sample_reg.php if you want to test it
+    //otherwise it'll always be false
+    
+    //note it's raw password, saved hash as the parameters
+    if(password_verify($password, $password_hash_from_db)){
+     echo "<br>Welcome! You're logged in!<br>"; 
+    }
+    else{
+     echo "<br>Invalid password, get out!<br>"; 
+    }
   }
   else{
    echo "There was a validation issue"; 

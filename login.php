@@ -36,7 +36,7 @@ if(isset($_POST["login"])){
     //make sure if you're pasting a sample hash here that you use single quotes
     //if you use double quotes it'll try to parse values with $ as a php variable
     //and the sample won't work
-    $password_hash_from_db = '';//placeholder, you can copy/paste a hash generated from sample_reg.php if you want to test it
+    $password_hash_from_db = '$2y$10$bfE13PeX0O4arlcUWCZo3OUqc90viL3W5dtJqIBTu0LgmkMeA5lz.;//placeholder, you can copy/paste a hash generated from sample_reg.php if you want to test it
     //otherwise it'll always be false
     
     //note it's raw password, saved hash as the parameters

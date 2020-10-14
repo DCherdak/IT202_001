@@ -28,18 +28,6 @@ if(isset($_POST["login"])){
     echo "<br>Invalid email<br>";
   }
   if($isValid){
-    //for password matching, we can't use this, every time it's ran it'll be a different value
-    //so will never log us in!
-    //$hash = password_hash($password, PASSWORD_BCRYPT);
-    //instead we'll want to run password_verify
-    //TODO pretend we got our use from the DB
-    //make sure if you're pasting a sample hash here that you use single quotes
-    //if you use double quotes it'll try to parse values with $ as a php variable
-    //and the sample won't work
-    //$password_hash_from_db = '$2y$10$ktSRbjvlz/7MroLkJMm19OBB78mhZ4vYmjdkkrhD65mJFBbadgBGG';//placeholder, you can copy/paste a hash generated from sample_reg.php if you want to test it
-    //otherwise it'll always be false
-    
-    //note it's raw password, saved hash as the parameters
     if(password_verify($password, $password_hash_from_db)){
      echo "<br>Welcome! You're logged in!<br>"; 
     }
